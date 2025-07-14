@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatboat Widget Test - Advanced</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #custom-chatbot {
+            border: 2px dashed #0070f3;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <h1>Chatboat Widget Test - Advanced</h1>
+        <p>This page tests the advanced configuration options. The widget below is initialized with all supported
+            variables.</p>
+        <div class="demo-section">
+            <h3>Custom Widget with All Options</h3>
+            <div id="custom-chatbot">
+            </div>
+        </div>
+        <h2>Configuration Options:</h2>
+        <ul>
+            <li><strong>theme</strong>: Customize colors and gradients</li>
+            <li><strong>userName</strong>: Personalize greetings</li>
+            <li><strong>initialMessages</strong>: Set starting conversation</li>
+            <li><strong>onOpen/onClose/onSend</strong>: Event handlers</li>
+        </ul>
+    </div>
+
+    <!-- Load the widget script -->
+    <script src="dist/chatboat-widget.js"></script>
+    <script>
+        const container = document.getElementById('custom-chatbot');
+        container.innerHTML = '';
+        function mountWidgetWhenReady() {
+            if (window.ChatboatWidgetMount) {
+                window.ChatboatWidgetMount(container, {
+                    userName: 'Alice',
+                    theme: {
+                        primaryColor: 'linear-gradient(90deg, #ff6b6b 0%, #ee5a24 100%)',
+                        headerGradient: 'linear-gradient(90deg, #ff6b6b 0%, #ee5a24 100%)',
+                        backgroundColor: '#fff5f5'
+                    },
+                    initialMessages: [
+                        {
+                            id: 1,
+                            sender: 'bot',
+                            text: 'Welcome Alice! This is a custom initial message.',
+                            timestamp: new Date()
+                        }
+                    ],
+                    onOpen: () => {
+                        console.log('Widget opened!');
+                    },
+                    onClose: () => {
+                        console.log('Widget closed!');
+                    },
+                    onSend: (message) => {
+                        console.log('Message sent:', message);
+                    }
+                });
+            } else {
+                setTimeout(mountWidgetWhenReady, 50);
+            }
+        }
+        mountWidgetWhenReady();
+    </script>
+</body>
+
+</html>

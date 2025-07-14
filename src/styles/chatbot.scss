@@ -1,0 +1,237 @@
+// src/styles/chatbot.scss
+
+// Namespace all classes with .cbw- to avoid clashes
+.cbw-widget {
+    width: 350px;
+    max-width: 100vw;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.cbw-header {
+    background: linear-gradient(90deg, #0070f3 0%, #7928ca 100%);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 1rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.cbw-messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: #f7f8fa;
+}
+
+.cbw-bubble-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.cbw-bubble-row.user {
+    flex-direction: row-reverse;
+}
+
+.cbw-bubble {
+    max-width: 70%;
+    padding: 0.7em 1em;
+    border-radius: 1.2em;
+    font-size: 1rem;
+    line-height: 1.4;
+    background: #e3e8f0;
+    color: #222;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    word-break: break-word;
+    transition: background 0.2s;
+}
+
+.cbw-bubble.user {
+    background: #0070f3;
+    color: #fff;
+}
+
+.cbw-bubble.bot {
+    background: #fff;
+    color: #222;
+    border: 1px solid #e3e8f0;
+}
+
+.cbw-timestamp {
+    font-size: 0.75em;
+    color: #888;
+    margin-top: 0.2em;
+    text-align: right;
+}
+
+.cbw-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e3e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.cbw-avatar.user {
+    background: #0070f3;
+    color: #fff;
+}
+
+.cbw-avatar.bot {
+    background: #fff;
+    color: #7928ca;
+    border: 1px solid #e3e8f0;
+}
+
+.cbw-input-row {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: #f7f8fa;
+    border-top: 1px solid #e3e8f0;
+    gap: 0.5rem;
+}
+
+.cbw-input {
+    flex: 1;
+    padding: 0.6em 1em;
+    border-radius: 1.2em;
+    border: 1px solid #e3e8f0;
+    font-size: 1rem;
+    outline: none;
+    background: #fff;
+    transition: border 0.2s;
+}
+
+.cbw-input:focus {
+    border: 1.5px solid #0070f3;
+}
+
+.cbw-send-btn,
+.cbw-emoji-btn {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0.3em 0.6em;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.cbw-send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cbw-send-btn:hover:not(:disabled),
+.cbw-emoji-btn:hover:not(:disabled) {
+    background: #e3e8f0;
+}
+
+// Floating Action Button (FAB) for chat icon
+.cbw-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #0070f3 0%, #7928ca 100%);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 1000;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.cbw-fab:hover {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.22);
+    transform: scale(1.07);
+}
+
+// Popout animation and fixed position
+.cbw-popout {
+    position: fixed;
+    bottom: 5.5rem;
+    right: 2rem;
+    animation: cbw-pop 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1001;
+}
+
+@keyframes cbw-pop {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+// Close button in header
+.cbw-close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    margin-left: auto;
+    cursor: pointer;
+    padding: 0 0.5em;
+    transition: color 0.2s;
+}
+
+.cbw-close-btn:hover {
+    color: #ffd700;
+}
+
+@media (max-width: 500px) {
+    .cbw-widget {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    .cbw-fab {
+        bottom: 1rem;
+        right: 1rem;
+        width: 48px;
+        height: 48px;
+        font-size: 1.5rem;
+    }
+
+    .cbw-popout {
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
+}

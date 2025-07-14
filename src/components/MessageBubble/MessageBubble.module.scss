@@ -1,0 +1,43 @@
+// MessageBubble.module.scss
+
+.bubbleRow {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.bubbleRow.user {
+    flex-direction: row-reverse;
+}
+
+.bubble {
+    max-width: 70%;
+    padding: 0.7em 1em;
+    border-radius: 1.2em;
+    font-size: 1rem;
+    line-height: 1.4;
+    background: #e3e8f0;
+    color: #222;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    word-break: break-word;
+    transition: background 0.2s;
+}
+
+.bubble.user {
+    background: #0070f3;
+    color: #fff;
+}
+
+.bubble.bot {
+    background: #fff;
+    color: #222;
+    border: 1px solid #e3e8f0;
+}
+
+.timestamp {
+    font-size: 0.75em;
+    color: #888;
+    margin-top: 0.2em;
+    text-align: right;
+}

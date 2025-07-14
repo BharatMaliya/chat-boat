@@ -1,0 +1,8 @@
+// src/styles/_mixins.scss
+// Define your SCSS mixins here
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,11 @@
+// src/styles/_base.scss
+// Add your base styles here
+
+@use 'variables' as *;
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: #fafafa;
+    color: $secondary-color;
+}

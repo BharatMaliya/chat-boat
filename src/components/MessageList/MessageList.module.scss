@@ -1,0 +1,11 @@
+// MessageList.module.scss
+
+.messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: #f7f8fa;
+}
