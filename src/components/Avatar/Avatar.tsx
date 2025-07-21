@@ -7,7 +7,7 @@ const Avatar: React.FC<{ user?: boolean }> = ({ user }) => {
             {user ? (
                 <span role="img" aria-label="user">🧑</span>
             ) : (
-                <span role="img" aria-label="bot">🤖</span>
+                <img src="https://chatbot.design/images/chatbot/DIGITAL%20%28RGB%29/SVG/Mark_RGB_Blue.svg" alt="Chatboat logo" />
             )}
         </div>
     );

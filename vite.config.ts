@@ -6,6 +6,7 @@ import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 export default defineConfig({
   plugins: [react(), cssInjectedByJsPlugin()],
   build: {
+    assetsInlineLimit: 10000, // 10kb
     rollupOptions: {
       output: {
         entryFileNames: 'chatboat-widget.js',

@@ -96,20 +96,23 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
                     onClick={() => setOpen(true)}
                     style={theme?.primaryColor ? { background: theme.primaryColor } : {}}
                 >
-                    <span role="img" aria-label="robot">🤖</span>
+                    <img src={"https://chatbot.design/images/chatbot/DIGITAL%20%28RGB%29/SVG/Mark_RGB_Blue.svg"} alt="Chatboat logo" />
                 </button>
             )}
             {/* Chatbot Popout */}
             {open && (
                 <div id="bharat-maliya" className={`${styles.widget} ${styles.popout}`} style={widgetStyle}>
                     <div className={styles.header} style={headerStyle}>
-                        <span role="img" aria-label="robot">🤖</span> Chatbot
+                        <div className={styles.headerBranding}>
+                            <img src={"https://chatbot.design/images/chatbot/DIGITAL%20%28RGB%29/SVG/Mark_RGB_Blue.svg"} alt="Chatboat logo" className={styles.headerLogo} />
+                            <span>Tripkliq</span>
+                        </div>
                         <button
                             className={styles.closeBtn}
                             aria-label="Close chat"
                             onClick={() => setOpen(false)}
                         >
-                            ×
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
                         </button>
                     </div>
                     <MessageList messages={messages} />

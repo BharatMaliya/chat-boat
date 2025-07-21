@@ -1,3 +1,5 @@
+@use '../../styles/variables' as *;
+
 // MessageBubble.module.scss
 
 .bubbleRow {
@@ -16,8 +18,8 @@
     border-radius: 1.2em;
     font-size: 1rem;
     line-height: 1.4;
-    background: #e3e8f0;
-    color: #222;
+    background: $bot-message-bg;
+    color: $text-color-dark;
     position: relative;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     word-break: break-word;
@@ -25,19 +27,19 @@
 }
 
 .bubble.user {
-    background: #0070f3;
-    color: #fff;
+    background: $user-message-bg;
+    color: $text-color-light;
 }
 
 .bubble.bot {
-    background: #fff;
-    color: #222;
+    background: $bot-message-bg;
+    color: $text-color-dark;
     border: 1px solid #e3e8f0;
 }
 
 .timestamp {
     font-size: 0.75em;
-    color: #888;
+    color: #999;
     margin-top: 0.2em;
     text-align: right;
 }

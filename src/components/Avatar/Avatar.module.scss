@@ -1,24 +1,27 @@
-// Avatar.module.scss
+@use '../../styles/variables' as *;
 
 .avatar {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: #e3e8f0;
+    background: $primary-color;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+    img {
+        width: 24px;
+        height: 24px;
+    }
 }
 
 .avatar.user {
-    background: #0070f3;
-    color: #fff;
+    display: none;
 }
 
 .avatar.bot {
-    background: #fff;
-    color: #7928ca;
-    border: 1px solid #e3e8f0;
+    background: $primary-color;
+    color: $text-color-light;
+    border: none;
 }
