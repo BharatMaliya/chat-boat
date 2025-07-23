@@ -7,13 +7,15 @@ import "./styles/index.scss";
 declare global {
   interface Window {
     MountChatBoatWidget: (
+      customerId: string,
       element?: HTMLElement,
-      options?: ChatbotWidgetProps
+      options?: ChatbotWidgetProps,
     ) => Root;
   }
 }
 
 window.MountChatBoatWidget = (
+  customerId: string,
   element?: HTMLElement,
   options?: ChatbotWidgetProps
 ) => {
@@ -28,19 +30,20 @@ window.MountChatBoatWidget = (
   const mergedOptions: ChatbotWidgetProps = {
     ...config,
     ...options,
+    customerId,
   };
 
-  const root = renderWidget(element, mergedOptions);
+  const root = renderWidget(customerId, element, mergedOptions);
 
   console.log("[ChatboatWidget] Mount complete.");
   return root;
 };
 
-const attemptAutoMount = () => {
-  const config = getWidgetConfig();
+const attemptAutoMount = async () => {
+  const config = await getWidgetConfig();
   console.log("[ChatboatWidget] Auto-mount check:", { config });
   if (config?.shouldAutoMount) {
-    window.MountChatBoatWidget();
+    window.MountChatBoatWidget(config.cxId);
   }
 };
 

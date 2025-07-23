@@ -6,6 +6,7 @@ import ChatbotWidget, {
 } from "../components/ChatbotWidget";
 
 export const renderWidget = (
+    customerId: string,
     element?: HTMLElement,
     options?: ChatbotWidgetProps
 ) => {
@@ -28,7 +29,7 @@ export const renderWidget = (
     const root = ReactDOM.createRoot(container);
     root.render(
         <React.StrictMode>
-            <ChatbotWidget {...options} />
+            <ChatbotWidget customerId={customerId} {...options} />
         </React.StrictMode>
     );
     console.log('[ChatboatWidget] Widget rendered.');

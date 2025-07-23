@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { webSocketService } from "../../services/websocket";
 import MessageInput from "../MessageInput";
 import MessageList, { type Message } from "../MessageList";
 import styles from "./ChatbotWidget.module.scss";
@@ -11,7 +12,7 @@ export interface ChatbotWidgetProps {
     };
     initialMessages?: Message[];
     userName?: string;
-    customerId?: string;
+    customerId: string;
     onOpen?: () => void;
     onClose?: () => void;
     onSend?: (message: Message) => void;
@@ -42,12 +43,17 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
             ]
     );
 
-    // Log the host domain when the widget mounts
+    // Log the host domain and connect to WebSocket when the widget mounts
     useEffect(() => {
         const domain = window.location.hostname;
         console.log('[ChatboatWidget] Loaded on domain:', domain);
         if (customerId) {
             console.log('[ChatboatWidget] Received Customer ID:', customerId);
+            webSocketService.connect(customerId);
+            // Clean up the connection when the component unmounts
+            return () => {
+                webSocketService.disconnect();
+            };
         }
         // Optionally, send this to your backend here
     }, [customerId]);
@@ -67,6 +73,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
         };
         setMessages([...messages, userMsg]);
         if (onSend) onSend(userMsg);
+        webSocketService.sendMessage({ text });
         // Simulate bot reply
         setTimeout(() => {
             setMessages((msgs) => [
