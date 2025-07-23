@@ -44,8 +44,13 @@
         <pre><code>&lt;script src="dist/assets/index-Bp79SWYm.js"&gt;&lt;/script&gt;</code></pre>
     </div>
 
-    <!-- Simple script tag - widget should auto-mount -->
-    <script src="dist/chatboat-widget.js"></script>
+    <!-- 
+      Simple script tag - widget should auto-mount.
+      We give the script tag a unique ID so our code can find it.
+      We use a 'data-*' attribute to pass in custom data.
+    -->
+    <script id="tripkliq-chat-boat-script" src="dist/chatboat-widget.js" data-cx-id="CUST12345"
+        data-auto-mount="true"></script>
 </body>
 
 </html>

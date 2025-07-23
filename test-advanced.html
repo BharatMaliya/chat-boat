@@ -68,13 +68,14 @@
     </div>
 
     <!-- Load the widget script -->
-    <script src="dist/chatboat-widget.js"></script>
+    <script id="tripkliq-chat-boat-script" src="dist/chatboat-widget.js" data-cx-id="CUST12345"
+        data-auto-mount="false"></script>
     <script>
         const container = document.getElementById('custom-chatbot');
         container.innerHTML = '';
         function mountWidgetWhenReady() {
-            if (window.ChatboatWidgetMount) {
-                window.ChatboatWidgetMount(container, {
+            if (window.MountChatBoatWidget) {
+                window.MountChatBoatWidget(container, {
                     userName: 'Alice',
                     theme: {
                         primaryColor: 'linear-gradient(90deg, #ff6b6b 0%, #ee5a24 100%)',

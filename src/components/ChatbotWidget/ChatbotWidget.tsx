@@ -11,6 +11,7 @@ export interface ChatbotWidgetProps {
     };
     initialMessages?: Message[];
     userName?: string;
+    customerId?: string;
     onOpen?: () => void;
     onClose?: () => void;
     onSend?: (message: Message) => void;
@@ -20,6 +21,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
     theme,
     initialMessages,
     userName,
+    customerId,
     onOpen,
     onClose,
     onSend,
@@ -44,8 +46,11 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
     useEffect(() => {
         const domain = window.location.hostname;
         console.log('[ChatboatWidget] Loaded on domain:', domain);
+        if (customerId) {
+            console.log('[ChatboatWidget] Received Customer ID:', customerId);
+        }
         // Optionally, send this to your backend here
-    }, []);
+    }, [customerId]);
 
     useEffect(() => {
         if (open && onOpen) onOpen();
