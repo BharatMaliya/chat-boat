@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { webSocketService } from "../../services/websocket";
+import { logger } from "../../utils/logger";
 import MessageInput from "../MessageInput";
 import MessageList, { type Message } from "../MessageList";
 import styles from "./ChatbotWidget.module.scss";
@@ -46,9 +47,9 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
     // Log the host domain and connect to WebSocket when the widget mounts
     useEffect(() => {
         const domain = window.location.hostname;
-        console.log('[ChatboatWidget] Loaded on domain:', domain);
+        logger.info("Loaded on domain:", domain);
         if (customerId) {
-            console.log('[ChatboatWidget] Received Customer ID:', customerId);
+            logger.info("Received Customer ID:", customerId);
             webSocketService.connect(customerId);
             // Clean up the connection when the component unmounts
             return () => {

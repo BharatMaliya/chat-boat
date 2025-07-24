@@ -1,5 +1,6 @@
 import { KEYS } from "../common/keys";
 import { httpService } from "../services/http";
+import { logger } from "../utils/logger";
 
 export interface WidgetConfig {
     cxId: string;
@@ -8,7 +9,7 @@ export interface WidgetConfig {
 
 export const getWidgetConfig = async (): Promise<WidgetConfig | null> => {
     const WIDGET_SCRIPT_TAG = document.getElementById(KEYS.CLINT_SCRIPT_TAG_ID);
-    console.log('[ChatboatWidget] Script tag found:', KEYS.CLINT_SCRIPT_TAG_ID, WIDGET_SCRIPT_TAG);
+    logger.debug("Script tag found:", KEYS.CLINT_SCRIPT_TAG_ID, WIDGET_SCRIPT_TAG);
 
     if (!WIDGET_SCRIPT_TAG) {
         throw new Error(`[ChatboatWidget] Widget script tag not found. Please ensure the script tag has the ID ${KEYS.CLINT_SCRIPT_TAG_ID}`);
@@ -32,7 +33,7 @@ export const getWidgetConfig = async (): Promise<WidgetConfig | null> => {
             shouldAutoMount,
         };
     } catch (error) {
-        console.error("[ChatboatWidget] Error fetching remote config:", error);
+        logger.error("[ChatboatWidget] Error fetching remote config:", error);
         return null;
     }
 };

@@ -3,6 +3,7 @@ import { type ChatbotWidgetProps } from "./components/ChatbotWidget";
 import { getWidgetConfig } from "./core/config-loader";
 import { renderWidget } from "./core/widget-renderer";
 import "./styles/index.scss";
+import { logger } from "./utils/logger";
 
 declare global {
   interface Window {
@@ -10,18 +11,18 @@ declare global {
       customerId: string,
       element?: HTMLElement,
       options?: ChatbotWidgetProps,
-    ) => Root;
+    ) => Promise<Root>;
   }
 }
 
-window.MountChatBoatWidget = (
+window.MountChatBoatWidget = async (
   customerId: string,
   element?: HTMLElement,
   options?: ChatbotWidgetProps
 ) => {
-  console.log("[ChatboatWidget] Mount initiated with:", { element, options });
+  logger.info("Mount initiated with:", { customerId, element, options });
 
-  const config = getWidgetConfig();
+  const config = await getWidgetConfig();
 
   if (!config) {
     throw new Error("ChatboatWidget config not found");
@@ -35,15 +36,15 @@ window.MountChatBoatWidget = (
 
   const root = renderWidget(customerId, element, mergedOptions);
 
-  console.log("[ChatboatWidget] Mount complete.");
+  logger.info("Mount complete.");
   return root;
 };
 
 const attemptAutoMount = async () => {
   const config = await getWidgetConfig();
-  console.log("[ChatboatWidget] Auto-mount check:", { config });
-  if (config?.shouldAutoMount) {
-    window.MountChatBoatWidget(config.cxId);
+  logger.info("Auto-mount check:", { config });
+  if (config?.shouldAutoMount && config.cxId) {
+    await window.MountChatBoatWidget(config.cxId);
   }
 };
 

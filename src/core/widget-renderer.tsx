@@ -4,13 +4,14 @@ import { KEYS } from "../common/keys";
 import ChatbotWidget, {
     type ChatbotWidgetProps,
 } from "../components/ChatbotWidget";
+import { logger } from "../utils/logger";
 
 export const renderWidget = (
     customerId: string,
     element?: HTMLElement,
     options?: ChatbotWidgetProps
 ) => {
-    console.log('[ChatboatWidget] Rendering widget with options:', options);
+    logger.debug("Rendering widget with options:", options);
     let container = element;
     if (!container) {
         let existingContainer = document.getElementById(
@@ -19,7 +20,7 @@ export const renderWidget = (
         if (existingContainer) {
             container = existingContainer;
         } else {
-            console.log('[ChatboatWidget] Creating new container element.');
+            logger.debug("Creating new container element.");
             container = document.createElement("div");
             container.id = KEYS.CHAT_BOAT_MOUNTING_ELEMENT;
             document.body.appendChild(container);
@@ -32,6 +33,6 @@ export const renderWidget = (
             <ChatbotWidget customerId={customerId} {...options} />
         </React.StrictMode>
     );
-    console.log('[ChatboatWidget] Widget rendered.');
+    logger.info("Widget rendered.");
     return root;
 };
