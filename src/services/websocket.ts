@@ -9,8 +9,15 @@ class WebSocketService extends BaseAPIService {
     }
 
     public connect(cxId: string): WebSocket {
-        const wsUrl = `ws://localhost:8080/connect-chatboat/${cxId}`;
+        const wsBaseURL = import.meta.env.VITE_WS_BASE_URL || "ws://localhost:8080";
+        const wsUrl = `${wsBaseURL}/connect-chatboat/${cxId}`;
         logger.info("Connecting to WebSocket:", wsUrl);
+
+        // Check if WebSocket is enabled
+        if (import.meta.env.VITE_ENABLE_WEBSOCKET !== 'true') {
+            logger.warn("WebSocket is disabled in environment variables");
+            return null as any;
+        }
 
         // Here you could add the token to the URL, e.g., `${wsUrl}?token=${this.apiToken}`
         this.ws = new WebSocket(wsUrl);
@@ -35,7 +42,7 @@ class WebSocketService extends BaseAPIService {
         return this.ws;
     }
 
-    public async sendMessage(message: any) {
+    public async sendMessage(message: unknown) {
         if (this.ws && this.ws.readyState === WebSocket.OPEN) {
             const encryptedMessage = await this.encrypt(message);
             this.ws.send(encryptedMessage);

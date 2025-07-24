@@ -35,9 +35,10 @@ export class BaseAPIService {
     private axiosInstance: ReturnType<typeof axios.create>;
     private apiToken: string | null = null;
 
-    constructor(baseURL: string = "/api") {
+    constructor(baseURL?: string) {
+        const defaultBaseURL = import.meta.env.VITE_API_BASE_URL || "/api";
         this.axiosInstance = axios.create({
-            baseURL,
+            baseURL: baseURL || defaultBaseURL,
             withCredentials: true,
         });
         this.apiToken = "mock-initial-token";
@@ -64,14 +65,13 @@ export class BaseAPIService {
             : undefined;
 
         try {
-            const requestConfig = {
+            const res = await this.axiosInstance.request<T>({
                 method,
                 url,
                 headers,
                 data: requestData as T | undefined,
                 ...(config || {}),
-            };
-            const res = await this.axiosInstance.request<T>(requestConfig);
+            });
             responseData = encryption ? await this.decrypt<T>(res.data) : res.data;
         } catch (err: unknown) {
             const axiosError = err as { isAxiosError?: boolean; response?: { status: number; statusText: string; data: unknown }; message: string };
@@ -81,14 +81,13 @@ export class BaseAPIService {
                 try {
                     const newToken = await this.resetToken();
                     if (newToken) {
-                        const retryRequestConfig = {
+                        const retryRes = await this.axiosInstance.request<T>({
                             method,
                             url,
                             headers: { ...headers, Authorization: `Bearer ${newToken}` },
                             data: requestData as T | undefined,
                             ...(config || {}),
-                        };
-                        const retryRes = await this.axiosInstance.request<T>(retryRequestConfig);
+                        });
                         responseData = encryption ? await this.decrypt<T>(retryRes.data) : retryRes.data;
                         error = null;
                     }

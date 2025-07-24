@@ -13,15 +13,18 @@ export class Logger {
     private focusedMessage: string | null;
     private logLevels: LogLevel;
 
-    constructor(debugMode: boolean = true) {
-        this.debugMode = debugMode;
+    constructor(debugMode?: boolean) {
+        this.debugMode = debugMode ?? (import.meta.env.VITE_DEBUG_MODE === 'true');
         this.focusedMode = false;
         this.focusedMessage = null;
+
+        // Set log levels based on environment variable
+        const logLevel = import.meta.env.VITE_LOG_LEVEL || 'info';
         this.logLevels = {
-            debug: true,
-            info: true,
-            warn: true,
-            error: true,
+            debug: logLevel === 'debug',
+            info: ['debug', 'info'].includes(logLevel),
+            warn: ['debug', 'info', 'warn'].includes(logLevel),
+            error: ['debug', 'info', 'warn', 'error'].includes(logLevel),
         };
     }
 
@@ -83,8 +86,8 @@ export class Logger {
 }
 
 // Export singleton instances
-export const logger = new Logger(true);
-export const focusedLogger = new Logger(true);
+export const logger = new Logger();
+export const focusedLogger = new Logger();
 
 /*
 Usage Examples:
