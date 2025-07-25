@@ -4,7 +4,7 @@ interface Props {
     color?: string
 }
 
-const SendIcon:React.FC<Props> = ({color="#004282"}) => {
+const SendIcon:React.FC<Props> = ({color="#0da495"}) => {
     return (
         <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="44" height="44" rx="22" fill="#EDF6FF"/>
