@@ -4,6 +4,7 @@ import { logger } from "../../utils/logger";
 import MessageInput from "../MessageInput";
 import MessageList, { type Message } from "../MessageList";
 import styles from "./ChatbotWidget.module.scss";
+import BoatAvatar from "../BoatAvatar/BoatAvatar.tsx";
 
 export interface ChatbotWidgetProps {
     theme?: {
@@ -100,24 +101,20 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
 
     return (
         <>
-            {/* Floating Chat Icon Button */}
             {!open && (
                 <button
-                    id="bharat-maliya"
                     className={styles.fab}
                     aria-label="Open chat"
                     onClick={() => setOpen(true)}
                     style={theme?.primaryColor ? { background: theme.primaryColor } : {}}
                 >
-                    <img src={"https://chatbot.design/images/chatbot/DIGITAL%20%28RGB%29/SVG/Mark_RGB_Blue.svg"} alt="Chatboat logo" />
+                    <BoatAvatar size={60} />
                 </button>
             )}
-            {/* Chatbot Popout */}
             {open && (
-                <div id="bharat-maliya" className={`${styles.widget} ${styles.popout}`} style={widgetStyle}>
+                <div className={`${styles.widget} ${styles.popout}`} style={widgetStyle}>
                     <div className={styles.header} style={headerStyle}>
                         <div className={styles.headerBranding}>
-                            <img src={"https://chatbot.design/images/chatbot/DIGITAL%20%28RGB%29/SVG/Mark_RGB_Blue.svg"} alt="Chatboat logo" className={styles.headerLogo} />
                             <span>Tripkliq</span>
                         </div>
                         <button

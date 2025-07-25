@@ -15,7 +15,7 @@
 .bubble {
     max-width: 70%;
     padding: 0.7em 1em;
-    border-radius: 1.2em;
+    border-radius: 12px;
     font-size: 1rem;
     line-height: 1.4;
     background: $bot-message-bg;
@@ -28,7 +28,7 @@
 
 .bubble.user {
     background: $user-message-bg;
-    color: $text-color-light;
+    color: $text-color-dark;
 }
 
 .bubble.bot {

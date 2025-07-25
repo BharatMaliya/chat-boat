@@ -14,7 +14,7 @@ export const renderWidget = (
     logger.debug("Rendering widget with options:", options);
     let container = element;
     if (!container) {
-        let existingContainer = document.getElementById(
+        const existingContainer = document.getElementById(
             KEYS.CHAT_BOAT_MOUNTING_ELEMENT
         );
         if (existingContainer) {

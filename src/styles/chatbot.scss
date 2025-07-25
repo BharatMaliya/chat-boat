@@ -2,9 +2,10 @@
 
 // Namespace all classes with .cbw- to avoid clashes
 .cbw-widget {
-    width: 350px;
+    width: 430px;
     max-width: 100vw;
-    height: 500px;
+    height: 810px;
+    max-height: calc(100vh - 118px);
     display: flex;
     flex-direction: column;
     background: #fff;
@@ -213,8 +214,9 @@
 
 @media (max-width: 500px) {
     .cbw-widget {
-        width: 100vw;
-        height: 100vh;
+        width: 100dvw;
+        height: 100dvh;
+        max-height: 100dvh;
         border-radius: 0;
     }
 

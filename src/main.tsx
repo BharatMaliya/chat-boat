@@ -52,6 +52,6 @@ if (typeof window !== "undefined") {
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", attemptAutoMount);
   } else {
-    attemptAutoMount();
+   await attemptAutoMount();
   }
 }
