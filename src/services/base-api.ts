@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URLS, API_SERVICE } from "../common/endpoints";
 import { logger } from "../utils/logger";
 
 export interface ApiRequestOptions {
@@ -34,14 +35,23 @@ export interface ApiError {
 export class BaseAPIService {
     private axiosInstance: ReturnType<typeof axios.create>;
     private apiToken: string | null = null;
+    private serviceType: API_SERVICE;
 
-    constructor(baseURL?: string) {
-        const defaultBaseURL = import.meta.env.VITE_API_BASE_URL || "/api";
+    constructor(serviceType: API_SERVICE = API_SERVICE.MAIN) {
+        this.serviceType = serviceType;
+        const baseURL = API_BASE_URLS[serviceType];
+
         this.axiosInstance = axios.create({
-            baseURL: baseURL || defaultBaseURL,
-            withCredentials: true,
+            baseURL,
+            withCredentials: serviceType === API_SERVICE.MAIN, // Only use credentials for main API
         });
-        this.apiToken = "mock-initial-token";
+
+        // Only set token for main API service
+        if (serviceType === API_SERVICE.MAIN) {
+            this.apiToken = "mock-initial-token";
+        }
+
+        logger.info(`BaseAPIService initialized for ${serviceType} with baseURL: ${baseURL}`);
     }
 
     public async request<T>({
@@ -54,6 +64,9 @@ export class BaseAPIService {
         let responseData: T | null = null;
         let error: ApiError | null = null;
 
+        // Only use encryption for main API service
+        const shouldEncrypt = encryption && this.serviceType === API_SERVICE.MAIN;
+
         const headers = {
             'Content-Type': 'application/json',
             ...this.getAuthHeaders(),
@@ -61,7 +74,7 @@ export class BaseAPIService {
         };
 
         const requestData = data && ['POST', 'PUT', 'PATCH'].includes(method)
-            ? (encryption ? await this.encrypt(data) : data)
+            ? (shouldEncrypt ? await this.encrypt(data) : data)
             : undefined;
 
         try {
@@ -72,11 +85,12 @@ export class BaseAPIService {
                 data: requestData as T | undefined,
                 ...(config || {}),
             });
-            responseData = encryption ? await this.decrypt<T>(res.data) : res.data;
+            responseData = shouldEncrypt ? await this.decrypt<T>(res.data) : res.data;
         } catch (err: unknown) {
             const axiosError = err as { isAxiosError?: boolean; response?: { status: number; statusText: string; data: unknown }; message: string };
 
-            if (axiosError.isAxiosError && axiosError.response?.status === 401) {
+            // Only attempt token refresh for main API service
+            if (axiosError.isAxiosError && axiosError.response?.status === 401 && this.serviceType === API_SERVICE.MAIN) {
                 logger.warn("Token expired, attempting to refresh...");
                 try {
                     const newToken = await this.resetToken();
@@ -88,7 +102,7 @@ export class BaseAPIService {
                             data: requestData as T | undefined,
                             ...(config || {}),
                         });
-                        responseData = encryption ? await this.decrypt<T>(retryRes.data) : retryRes.data;
+                        responseData = shouldEncrypt ? await this.decrypt<T>(retryRes.data) : retryRes.data;
                         error = null;
                     }
                 } catch (refreshError: unknown) {
@@ -145,7 +159,7 @@ export class BaseAPIService {
     }
 
     private getAuthHeaders(): Record<string, string> {
-        if (!this.apiToken) return {};
+        if (!this.apiToken || this.serviceType !== API_SERVICE.MAIN) return {};
         return { Authorization: `Bearer ${this.apiToken}` };
     }
 } 
